@@ -62,6 +62,7 @@ for index, linha in enumerate(linhas):
 
     #Escreve a linha no arquivo    
     destino.write(classe + ' ' + linhaParaTeste + " #"+ str(index+1) + '\n')
+    print(str(index+1))
 for id in sorted(qtdMensagensComPalavra, key=qtdMensagensComPalavra.get, reverse=False):
     print(id, qtdMensagensComPalavra[id])
 

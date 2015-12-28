@@ -52,7 +52,7 @@ def postIsNotPersisted(id):
 browser = webdriver.Firefox()
 empresa = sys.argv[1]
 num = 1
-conn = sqlite3.connect("reclamacoes.db")
+conn = sqlite3.connect("database/reclamacoes.db")
 conn.text_factory = str()
 for i in range(1, 300):
 	browser.get('http://www.reclameaqui.com.br/busca/?q=shoptime&empresa=Shoptime&pagina='+str(i))
