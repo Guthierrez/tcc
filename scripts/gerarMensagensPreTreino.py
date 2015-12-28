@@ -7,9 +7,9 @@ import sys
 import math
 
 def calcularPesoPalavra(ocorrenciasNaMensagem, tamanhoMensagem, numTotalMensagens, qtdMensagensComPalavra):
-    tf = ocorrenciasNaMensagem/tamanhoMensagem
-    idf = math.log10(numTotalMensagens/qtdMensagensComPalavra)
-    return tf*idf
+    tf = float(ocorrenciasNaMensagem)/float(tamanhoMensagem)
+    idf = math.log10(float(numTotalMensagens)/qtdMensagensComPalavra)
+    return float(tf*idf)
 
 try:
     origem = open(sys.argv[1], 'r')
@@ -38,7 +38,7 @@ for index, linha in enumerate(linhas):
         ocorrenciasNaMensagem = 0
         ocorrenciasNoArquivo = 0
         
-        #Se a palavra na mensagem é encontrada pela primeira, verifica-se a quantidade de ocorrências na mensagem
+        #Se a palavra na mensagem é encontrada pela primeira vez, verifica-se a quantidade de ocorrências na mensagem
         if palavra not in palavrasVerificadas:
            ocorrenciasNaMensagem = mensagem.split(' ').count(palavra)
            palavrasVerificadas.append(palavra)
@@ -49,11 +49,12 @@ for index, linha in enumerate(linhas):
                id+=1
                
                #Contagem de quantas mensagens possuem uma determinada palavra
-               for msg in linhas:
-                   palavrasMensagem = msg[msg.index(']')+2:].rstrip('\n').split(' ')
-                   if palavra in palavrasMensagem:
-                       ocorrenciasNoArquivo +=1
-               qtdMensagensComPalavra[palavra] = ocorrenciasNoArquivo
+               if palavra not in qtdMensagensComPalavra:
+                   for msg in linhas:
+                       palavrasMensagem = msg[msg.index(']')+2:].rstrip('\n').split(' ')
+                       if palavra in palavrasMensagem:
+                           ocorrenciasNoArquivo +=1
+                   qtdMensagensComPalavra[palavra] = ocorrenciasNoArquivo
            casoDeTeste[registroPalavras[palavra]]=calcularPesoPalavra(ocorrenciasNaMensagem, tamanhoMensagem, numTotalMensagens, qtdMensagensComPalavra[palavra])
     
     #Constrói a linha de teste com as features ordenadas
@@ -61,8 +62,8 @@ for index, linha in enumerate(linhas):
         linhaParaTeste += str(id) + ':' + str(casoDeTeste[id]) + ' '
 
     #Escreve a linha no arquivo    
-    destino.write(classe + ' ' + linhaParaTeste + " #"+ str(index+1) + '\n')
-    print(str(index+1))
+    destino.write("##"+ str(index+1) + "## " + linhaParaTeste + '\n')
+    print(index)
 for id in sorted(qtdMensagensComPalavra, key=qtdMensagensComPalavra.get, reverse=False):
     print(id, qtdMensagensComPalavra[id])
 
