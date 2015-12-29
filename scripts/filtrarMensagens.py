@@ -19,7 +19,7 @@ except IndexError:
 lines = source.readlines()
 
 for index, line in enumerate(lines):
-    if '-[' in line and 'http' not in line and len(line) > 15:
+    if '-[' in line :
         
         line = line.lower()
         line = line.replace('] ', ' '+str(index+1)+' ] ')
