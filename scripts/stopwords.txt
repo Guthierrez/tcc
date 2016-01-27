@@ -1,4 +1,4 @@
-a
+﻿a
 à
 agora
 ainda
@@ -257,3 +257,6 @@ vindo
 vir
 vos
 vós
+n°
+nº
+r$
