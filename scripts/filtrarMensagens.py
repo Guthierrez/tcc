@@ -30,11 +30,12 @@ for index, line in enumerate(lines):
         mensagem = unicode(mensagem, "utf-8")
         mensagem = unidecode(mensagem)
         mensagem = mensagem.lower()
+        aux = []
         
         #Remover caracteres especiais
         for char in mensagem:
-            if char in '!#.,();\'\"?:@_/0123456789-[]|%+=':
-                mensagem = mensagem.replace(char, '')
+            if char in u'!#.,();\'\"?:_/0123456789-[]$|%+=':
+                mensagem = mensagem.replace(char, ' ')
         
         #Separando cada linha em palavras
         words = mensagem.split()
@@ -44,10 +45,12 @@ for index, line in enumerate(lines):
             if word in words:
                 while word in words:          
                     words.remove(word)
-            if 'http' in word or 'www' in word:
-                words.remove(word)
-      
-        target.write(classe + u' '.join(words).encode('utf-8').strip() + '\n')
+
+        for word in words:
+            if 'http' not in word and 'www' not in word and '@' not in word and len(word) > 2:
+                aux.append(word)
+        target.write(classe + u' ' + u' '.join(aux).encode('utf-8').strip() + '\n')
+        print(index+1)
 
 source.close()
 target.close()
