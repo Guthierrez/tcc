@@ -49,7 +49,7 @@ for index, line in enumerate(lines):
         for word in words:
             if 'http' not in word and 'www' not in word and '@' not in word and len(word) > 2:
                 aux.append(word)
-        target.write(classe + u' ' + u' '.join(aux).encode('utf-8').strip() + '\n')
+        target.write(u' '.join(aux).encode('utf-8').strip() + '\n')
         print(index+1)
 
 source.close()
