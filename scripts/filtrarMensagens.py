@@ -10,6 +10,7 @@ try:
     source = open(sys.argv[1], 'r')
     target = open(sys.argv[2], 'w')
     filestopwords = open(sys.argv[3])
+    dicionario = eval(open(sys.argv[4]).read())
     stopwords = []
     for word in filestopwords.readlines():
         stopwords.append(word.rstrip())
@@ -22,7 +23,7 @@ lines = source.readlines()
 
 
 for index, line in enumerate(lines):
-    if '-[' in line :
+    if '-[' in line:
         
         line = line.replace('] ', ' '+str(index+1)+' ] ')
         classe = line[:line.index(']')+1].rstrip('\n') #Classe e autor da mensagem
@@ -34,7 +35,7 @@ for index, line in enumerate(lines):
         
         #Remover caracteres especiais
         for char in mensagem:
-            if char in u'!#.,();\'\"?:_/0123456789-[]$|%+=':
+            if char in u'!#.,();\'\"?:_/0123456789-[]$|%+=~':
                 mensagem = mensagem.replace(char, ' ')
         
         #Separando cada linha em palavras
@@ -46,10 +47,15 @@ for index, line in enumerate(lines):
                 while word in words:          
                     words.remove(word)
 
+        #Filtrando palavras
         for word in words:
-            if 'http' not in word and 'www' not in word and '@' not in word and len(word) > 2:
-                aux.append(word)
-        target.write(u' '.join(aux).encode('utf-8').strip() + '\n')
+            currentWord = word
+            if currentWord in dicionario:
+                currentWord = dicionario[currentWord]
+            if 'http' not in currentWord and 'www' not in currentWord and '@' not in word and len(currentWord) > 2:
+                aux.append(currentWord)
+        if(aux):
+            target.write(u' '.join(aux).encode('utf-8').strip() + '\n')
         print(index+1)
 
 source.close()
